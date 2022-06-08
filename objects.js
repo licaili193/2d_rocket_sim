@@ -26,7 +26,7 @@ class Ball {
 
   setPosition(x, y) {
     this.x_ = x;
-    this.y_ = y;
+    this.y_ = -y;
     this.size_ = 1;
   }
 
@@ -62,7 +62,7 @@ class Arrow {
 
   setPosition(x, y) {
     this.x_ = x;
-    this.y_ = y;
+    this.y_ = -y;
   }
 
   setAngle(theta) {
@@ -79,7 +79,7 @@ class Arrow {
     this.graphics_.lineStyle(linewidth, 0xffd900, 1);
     this.graphics_
       .moveTo(this.x_, this.y_)
-      .lineTo(this.x_ + this.length_ * zoomLevel * Math.cos(this.theta_), this.y_ + this.length_ * zoomLevel * Math.sin(this.theta_));
+      .lineTo(this.x_ + this.length_ * zoomLevel * Math.cos(this.theta_), this.y_ - this.length_ * zoomLevel * Math.sin(this.theta_));
   }
 
   onZoomed(zoomLevel) {

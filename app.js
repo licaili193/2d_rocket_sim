@@ -67,13 +67,13 @@ class App {
 
     // Create space craft
     this.craft = new Ball(this.viewport_, new PIXI.Graphics());
-    this.craft.setPosition(0, -EARTH_RADIUS_KM);
+    this.craft.setPosition(EARTH_RADIUS_KM, EARTH_RADIUS_KM);
     this.craft.setSize(EARTH_RADIUS_KM / 50);
 
     // Create arrow
     this.arrow = new Arrow(this.viewport_, new PIXI.Graphics());
-    this.arrow.setPosition(0, -EARTH_RADIUS_KM);
-    this.arrow.setAngle(-1.2);
+    this.arrow.setPosition(EARTH_RADIUS_KM, EARTH_RADIUS_KM);
+    this.arrow.setAngle(1.2);
     this.arrow.setLength(EARTH_RADIUS_KM / 5);
 
     // Fit content
