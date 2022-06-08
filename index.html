@@ -4,10 +4,6 @@
     <script src="https://pixijs.download/release/pixi.min.js"></script>
     <script src="https://github.com/davidfig/pixi-viewport/releases/download/4.34.4/viewport.min.js"></script>
     <style>
-      canvas {
-        display:block;
-      }
-
       #frame {
         /* Necessary to make sure frame width/height
         isn't set according to the canvas element */
@@ -20,11 +16,40 @@
         width: 100%;
         height: 100%;
       }
+
+      #ui-panel {
+        display: flex;
+        flex-direction: column;
+
+        /* Necessary to make sure frame width/height
+        isn't set according to the canvas element */
+        position: absolute;
+        overflow: hidden;
+        
+        /* Optional stuff for positioning */
+        top: 0;
+        right: 0;
+        width: fit-content;
+        height: calc(100vh - 2*20px - 2*10px);
+
+        padding: 10px;
+        margin: 20px;
+
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.25);
+      }
     </style>
   </head>
   <body>
     <div id="frame"></div>
+
+    <div id="ui-panel">
+      <button>Hello world</button>
+      <button>Hello world</button>
+      <button>Hello world</button>
+    </div>
     <script src="config.js" type="text/javascript"></script>
+    <script src="objects.js" type="text/javascript"></script>
     <script src="app.js" type="text/javascript"></script>
 
     <script src="main.js" type="text/javascript"></script>

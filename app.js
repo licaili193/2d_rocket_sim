@@ -50,10 +50,8 @@ class App {
   }
 
   onZoomed() {
-    this.craft.clear();
-    this.craft
-      .beginFill(0xFFFFFF)
-      .drawCircle(0, -EARTH_RADIUS_KM, EARTH_RADIUS_KM / 50 * this.getZoomValue());
+    this.craft.onZoomed(this.getZoomValue());
+    this.arrow.onZoomed(this.getZoomValue());
   }
 
   getZoomValue() {
@@ -65,17 +63,22 @@ class App {
     this.onResize();
 
     // Create Earth
-    this.earth = new PIXI.Graphics()
-      .beginFill(0x2E8BC0)
-      .drawCircle(0, 0, EARTH_RADIUS_KM);
-    this.viewport_.addChild(this.earth);
+    this.earth = new Earth(this.viewport_, new PIXI.Graphics());
 
     // Create space craft
-    this.craft = new PIXI.Graphics();
-    this.viewport_.addChild(this.craft);
+    this.craft = new Ball(this.viewport_, new PIXI.Graphics());
+    this.craft.setPosition(0, -EARTH_RADIUS_KM);
+    this.craft.setSize(EARTH_RADIUS_KM / 50);
+
+    // Create arrow
+    this.arrow = new Arrow(this.viewport_, new PIXI.Graphics());
+    this.arrow.setPosition(0, -EARTH_RADIUS_KM);
+    this.arrow.setAngle(-1.2);
+    this.arrow.setLength(EARTH_RADIUS_KM / 5);
 
     // Fit content
     this.viewport_.fit(true, EARTH_RADIUS_KM * 3, EARTH_RADIUS_KM * 3);
+    this.viewport_.sortChildren();
 
     // Call zoom once to set the initial space craft size
     this.onZoomed();
