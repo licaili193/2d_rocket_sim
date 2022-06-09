@@ -37,6 +37,11 @@
 
         border-radius: 5px;
         background-color: rgba(255, 255, 255, 0.25);
+        color: rgba(255, 255, 255, 1);
+      }
+
+      #ui-panel > div {
+        margin: 5px;
       }
     </style>
   </head>
@@ -44,12 +49,36 @@
     <div id="frame"></div>
 
     <div id="ui-panel">
-      <button>Hello world</button>
-      <button>Hello world</button>
-      <button>Hello world</button>
+      <label>Craft Config</label>
+      <div>
+        <input type="number" id="initX" value="0" disable-when-sim></input>
+        <label>Initial x pos</label>
+      </div>
+      <div>
+        <input type="number" id="initY" value="6381000" disable-when-sim></input>
+        <label>Initial y pos</label>
+      </div>
+      <div>
+        <input type="number" id="angle" value="0" disable-when-sim></input>
+        <label>Launch angle</label>
+      </div>
+      <div>
+        <input type="number" id="speed" value="7900" disable-when-sim></input>
+        <label>Initial speed</label>
+      </div>
+      <div>
+        <input type="number" id="step" value="1" disable-when-sim></input>
+        <label>Simulation step</label>
+      </div>
+      <label>Simulation Control</label>
+      <div>
+        <button id="startButton" onclick="startClicked" disable-when-sim>Start</button>
+        <button id="stopButton" onclick="stopClicked" disable-when-stop disabled>Stop</button>
+      </div>
     </div>
     <script src="config.js" type="text/javascript"></script>
     <script src="objects.js" type="text/javascript"></script>
+    <script src="engine.js" type="text/javascript"></script>
     <script src="app.js" type="text/javascript"></script>
 
     <script src="main.js" type="text/javascript"></script>

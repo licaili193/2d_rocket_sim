@@ -22,12 +22,12 @@ class Ball {
 
     this.x_ = 0;
     this.y_ = 0;
+    this.size_ = 1;
   }
 
   setPosition(x, y) {
     this.x_ = x;
     this.y_ = -y;
-    this.size_ = 1;
   }
 
   setSize(size) {
@@ -39,10 +39,6 @@ class Ball {
     this.graphics_
       .beginFill(0xFFFFFF)
       .drawCircle(this.x_, this.y_, this.size_ * zoomLevel);
-  }
-  
-  onZoomed(zoomLevel) {
-    this.draw(zoomLevel);
   }
 }
 
@@ -58,6 +54,8 @@ class Arrow {
     this.y_ = 0;
     this.theta_ = 0;
     this.length_ = 1;
+
+    this.hide = false;
   }
 
   setPosition(x, y) {
@@ -73,16 +71,45 @@ class Arrow {
     this.length_ = length;
   }
 
-  draw(zoomLevel) {
-    this.graphics_.clear();
-    var linewidth = 50 * zoomLevel;
-    this.graphics_.lineStyle(linewidth, 0xffd900, 1);
-    this.graphics_
-      .moveTo(this.x_, this.y_)
-      .lineTo(this.x_ + this.length_ * zoomLevel * Math.cos(this.theta_), this.y_ - this.length_ * zoomLevel * Math.sin(this.theta_));
+  setHide(hide) {
+    this.hide = hide;
   }
 
-  onZoomed(zoomLevel) {
-    this.draw(zoomLevel);
+  draw(zoomLevel) {
+    this.graphics_.clear();
+    
+    if (!this.hide) {
+      var linewidth = 50 * zoomLevel;
+      this.graphics_.lineStyle(linewidth, 0xffd900, 1);
+      this.graphics_
+        .moveTo(this.x_, this.y_)
+        .lineTo(this.x_ + this.length_ * zoomLevel * Math.cos(this.theta_), this.y_ - this.length_ * zoomLevel * Math.sin(this.theta_));
+    }
+  }
+}
+
+class Trace {
+  constructor(viewport, graphics) {
+    this.viewport_ = viewport;
+    this.graphics_ = graphics;
+
+    this.graphics_.zIndex = 1;
+    this.viewport_.addChild(this.graphics_);
+  }
+
+  draw(data, zoomLevel) {
+    this.graphics_.clear();
+
+    if (!data) {
+      return;
+    }
+    
+    var linewidth = 25 * zoomLevel;
+    this.graphics_.lineStyle(linewidth, 0xaaaaaa, 1);
+    for (let i = 1; i < data.length; i++) {
+      this.graphics_
+        .moveTo(data[i - 1][0], -data[i - 1][1])
+        .lineTo(data[i][0], -data[i][1]);
+    }
   }
 }
