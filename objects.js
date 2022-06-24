@@ -25,6 +25,8 @@ class Ball {
     this.size_ = 1;
     this.theta_ = 0;
 
+    this.thrusting_ = false;
+
     this.indicatorLength_ = EARTH_RADIUS_KM / 15;
   }
 
@@ -41,6 +43,10 @@ class Ball {
     this.size_ = size;
   }
 
+  setThrusting(thrusting) {
+    this.thrusting_ = thrusting;
+  }
+
   draw(zoomLevel) {
     this.graphics_.clear();
     var linewidth = 50 * zoomLevel;
@@ -51,6 +57,13 @@ class Ball {
       .lineStyle(linewidth, 0xff0000, 1)
       .moveTo(this.x_, this.y_)
       .lineTo(this.x_ + this.indicatorLength_ * zoomLevel * Math.cos(this.theta_), this.y_ - this.indicatorLength_ * zoomLevel * Math.sin(this.theta_));
+    
+      if (this.thrusting_) {
+        this.graphics_
+          .beginFill(0xFF0000)
+          .drawCircle(this.x_ - this.size_ * zoomLevel * Math.cos(this.theta_), this.y_ + this.size_ * zoomLevel * Math.sin(this.theta_), this.size_ / 2 * zoomLevel)
+          .endFill();
+      }
   }
 }
 

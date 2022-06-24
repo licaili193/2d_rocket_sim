@@ -96,16 +96,27 @@ class App {
 
     // Simulation control
     this.stared_ = false;
+    this.thrusting_ = false;
 
     // Event handlers
     document.getElementById("startButton").addEventListener("click", this.onStart.bind(this));
     document.getElementById("stopButton").addEventListener("click", this.onStop.bind(this));
+    document.getElementById("thrustButton").addEventListener("mousedown", this.onThrustClick.bind(this));
+    document.getElementById("thrustButton").addEventListener("mouseup", this.onThrustRelease.bind(this));
   }
 
   tick() {
     if (this.stared_) {
       // Simulating
       this.arrow.setHide(true);
+
+      // Get thrusting information
+      const thrust = Number(this.getFromUi("thrust"));
+      if (this.thrusting_) {
+        this.engine_.setThrust(thrust);
+      } else {
+        this.engine_.setThrust(undefined);
+      }
 
       if (this.engine_ !== undefined) {
         this.engine_.step(1);
@@ -115,6 +126,7 @@ class App {
         const newY = res[1] / 1000;
         this.craft.setPosition(newX, newY);
         this.craft.setAngle(res[4]);
+        this.craft.setThrusting(this.thrusting_);
 
         if (this.traceData_.length < 1) {
           this.traceData_.push([newX, newY]);
@@ -133,7 +145,7 @@ class App {
       // Simulation stopped
       this.arrow.setHide(false);
 
-      const x =  Number(this.getFromUi("initX"));
+      const x = Number(this.getFromUi("initX"));
       const y = Number(this.getFromUi("initY"));
       const speed = Number(this.getFromUi("speed"));
       const theta = Number(this.getFromUi("angle"));
@@ -146,6 +158,7 @@ class App {
 
       this.craft.setPosition(x / 1000, y / 1000);
       this.craft.setAngle(orientation);
+      this.craft.setThrusting(false);
       this.arrow.setPosition(x / 1000, y / 1000);
       this.arrow.setAngle(theta);
 
@@ -182,6 +195,8 @@ class App {
     this.engine_ = undefined;
     this.traceData_ = undefined;
 
+    this.thrusting_ = false;
+
     let elements = document.querySelectorAll('[disable-when-sim]');
     for (let element of elements) {
       element.disabled = false;
@@ -190,5 +205,13 @@ class App {
     for (let element of elements) {
       element.disabled = true;
     }
+  }
+
+  onThrustClick() {
+    this.thrusting_ = true;
+  }
+
+  onThrustRelease() {
+    this.thrusting_ = false;
   }
 }

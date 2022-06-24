@@ -78,10 +78,15 @@
         <input type="number" id="omega" value="0.1" disable-when-sim></input>
         <label>Initial angular velocity</label>
       </div>
+      <label>Flight Control</label>
+      <div>
+        <input type="number" id="thrust" value="0" disable-when-stop disabled></input>
+        <button id="thrustButton" disable-when-stop disabled>Thrust!</button>
+      </div>
       <label>Simulation Control</label>
       <div>
-        <button id="startButton" onclick="startClicked" disable-when-sim>Start</button>
-        <button id="stopButton" onclick="stopClicked" disable-when-stop disabled>Stop</button>
+        <button id="startButton" disable-when-sim>Start</button>
+        <button id="stopButton" disable-when-stop disabled>Stop</button>
       </div>
     </div>
     <script src="config.js" type="text/javascript"></script>
