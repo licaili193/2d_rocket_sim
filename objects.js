@@ -23,11 +23,18 @@ class Ball {
     this.x_ = 0;
     this.y_ = 0;
     this.size_ = 1;
+    this.theta_ = 0;
+
+    this.indicatorLength_ = EARTH_RADIUS_KM / 15;
   }
 
   setPosition(x, y) {
     this.x_ = x;
     this.y_ = -y;
+  }
+
+  setAngle(theta) {
+    this.theta_ = theta;
   }
 
   setSize(size) {
@@ -36,9 +43,14 @@ class Ball {
 
   draw(zoomLevel) {
     this.graphics_.clear();
+    var linewidth = 50 * zoomLevel;
     this.graphics_
       .beginFill(0xFFFFFF)
-      .drawCircle(this.x_, this.y_, this.size_ * zoomLevel);
+      .drawCircle(this.x_, this.y_, this.size_ * zoomLevel)
+      .endFill()
+      .lineStyle(linewidth, 0xff0000, 1)
+      .moveTo(this.x_, this.y_)
+      .lineTo(this.x_ + this.indicatorLength_ * zoomLevel * Math.cos(this.theta_), this.y_ - this.indicatorLength_ * zoomLevel * Math.sin(this.theta_));
   }
 }
 

@@ -114,6 +114,7 @@ class App {
         const newX = res[0] / 1000;
         const newY = res[1] / 1000;
         this.craft.setPosition(newX, newY);
+        this.craft.setAngle(res[4]);
 
         if (this.traceData_.length < 1) {
           this.traceData_.push([newX, newY]);
@@ -138,15 +139,18 @@ class App {
       const theta = Number(this.getFromUi("angle"));
       const vx = Math.cos(theta) * speed;
       const vy = Math.sin(theta) * speed;
+      const orientation = Number(this.getFromUi("orientation"));
+      const angularVelocity = Number(this.getFromUi("omega"));
 
       const timestep = this.period_ * this.getFromUi("step") / 1000;
 
       this.craft.setPosition(x / 1000, y / 1000);
+      this.craft.setAngle(orientation);
       this.arrow.setPosition(x / 1000, y / 1000);
       this.arrow.setAngle(theta);
 
       this.engine_ = new Engine(timestep);
-      this.engine_.setInitialCondition(x, y, vx, vy);
+      this.engine_.setInitialCondition(x, y, vx, vy, orientation, angularVelocity);
 
       this.traceData_ = [];
     }
